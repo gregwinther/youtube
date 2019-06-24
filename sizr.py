@@ -21,35 +21,12 @@ class SIZR:
         initial value:  S0, I0, Z0, R0
         """
 
-        if isinstance(sigma, (float, int)):
-            self.sigma = lambda t: sigma
-        elif callable(sigma):
-            self.sigma = sigma
-
-        if isinstance(beta, (float, int)):
-            self.beta = lambda t: beta
-        elif callable(beta):
-            self.beta = beta
-
-        if isinstance(rho, (float, int)):
-            self.rho = lambda t: rho
-        elif callable(rho):
-            self.rho = rho
-
-        if isinstance(delta_S, (float, int)):
-            self.delta_S = lambda t: delta_S
-        elif callable(delta_S):
-            self.delta_S = delta_S
-
-        if isinstance(delta_I, (float, int)):
-            self.delta_I = lambda t: delta_I
-        elif callable(delta_I):
-            self.delta_I = delta_I
-
-        if isinstance(alpha, (float, int)):
-            self.alpha = lambda t: alpha
-        elif callable(alpha):
-            self.alpha = alpha
+        for name, argument in locals().items():
+            if name not in ('self', 'S0', 'I0', 'R0', 'Z0'):
+                if isinstance(argument, (float, int)):
+                    setattr(self, name, lambda self, value=argument: value)
+                elif callable(argument):
+                    setattr(self, name, argument)
 
         self.initial_conditions = [S0, I0, Z0, R0]
 
