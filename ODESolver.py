@@ -1,4 +1,5 @@
 import numpy as np 
+from tqdm import tqdm
 
 class ODESolver:
     """ODESolver superclass
@@ -35,7 +36,7 @@ class ODESolver:
         self.u[0, :] = self.U0 
 
         # Integrate 
-        for i in range(n - 1):
+        for i in tqdm(range(n - 1), ascii=True):
             self.i = i
             self.u[i + 1] = self.advance()
 
