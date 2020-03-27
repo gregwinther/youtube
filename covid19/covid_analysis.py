@@ -7,14 +7,15 @@ from sklearn.metrics import r2_score
 def logistic_function(x, a=1, b=0, c=1, d=0):
     return a / (1 + np.exp(-c*(x - d))) + b
 
-def fit_data_to_function(x, y, function):
+def fit_data_to_function(x, y, function, plot=True):
     params, _ = curve_fit(function, x, y)
     plt.plot(x, y, ".", label="Observations")
     y_fit = function(x, *params)
     print(r2_score(y, y_fit))
-    plt.plot(x, y_fit, label="Fitted curve")
-    plt.legend()
-    plt.show()
+    if plot:
+        plt.plot(x, y_fit, label="Fitted curve")
+        plt.legend()
+        plt.show()
     return params
 
 def plateau(x, y, params, function, diff=10):
