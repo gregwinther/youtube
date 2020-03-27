@@ -34,7 +34,7 @@ if __name__ == "__main__":
     with open("./covid_data.json", "r") as file:
         data = json.load(file)
 
-    y = np.asarray(data["china"])
+    y = np.asarray(data["italy"])
     x = np.arange(len(y))
 
     params = fit_data_to_function(x, y, logistic_function)
