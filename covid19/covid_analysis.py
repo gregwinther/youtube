@@ -13,8 +13,8 @@ def exponential_function(x, a=1, b=0, c=0, d=0):
     return a * np.exp(c * (x + d)) + b
 
 
-def fit_data_to_function(x, y, function, plot=True):
-    params, _ = curve_fit(function, x, y, p0=[10000, 1, 1, 1])
+def fit_data_to_function(x, y, function, plot=True, initial_guess=[1, 1, 1, 1]):
+    params, _ = curve_fit(function, x, y, p0=initial_guess)
     plt.plot(x, y, ".", label="Observations")
     y_fit = function(x, *params)
     print(r2_score(y, y_fit))
@@ -45,15 +45,11 @@ if __name__ == "__main__":
     y = np.asarray(data["norway"])
     x = np.arange(len(y))
 
-    params = fit_data_to_function(x, y, logistic_function)
+    params = fit_data_to_function(
+        x, y, logistic_function, initial_guess=[10000, 1, 1, 1]
+    )
     print(params)
     diff = 100
-    days, confirmed = plateau(
-        x,
-        y,
-        params,
-        logistic_function,
-        diff=diff
-    )
+    days, confirmed = plateau(x, y, params, logistic_function, diff=diff)
     print(f"{days} days until growth is less than {diff}")
     print(f"Number of cases is {int(confirmed)}")
