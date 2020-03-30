@@ -1,11 +1,17 @@
-import numpy as np 
-from matplotlib import pyplot as plt 
+import numpy as np
+from matplotlib import pyplot as plt
 import json
 from scipy.optimize import curve_fit
 from sklearn.metrics import r2_score
 
+
 def logistic_function(x, a=1, b=0, c=1, d=0):
-    return a / (1 + np.exp(-c*(x - d))) + b
+    return a / (1 + np.exp(-c * (x - d))) + b
+
+
+def exponential_function(x, a=1, b=0, c=0, d=0):
+    return a * np.exp(c * (x + d)) + b
+
 
 def fit_data_to_function(x, y, function, plot=True):
     params, _ = curve_fit(function, x, y)
@@ -17,6 +23,7 @@ def fit_data_to_function(x, y, function, plot=True):
         plt.legend()
         plt.show()
     return params
+
 
 def plateau(x, y, params, function, diff=10):
     confirmed_now = y[-1]
@@ -30,21 +37,22 @@ def plateau(x, y, params, function, diff=10):
 
     return days, confirmed_now
 
+
 if __name__ == "__main__":
     with open("./covid_data.json", "r") as file:
         data = json.load(file)
 
-    y = np.asarray(data["italy"])
+    y = np.asarray(data["norway"])
     x = np.arange(len(y))
 
-    params = fit_data_to_function(x, y, logistic_function)
-    diff = 100
-    days, confirmed = plateau(
-        x, 
-        y,
-        params,
-        logistic_function,
-        diff=diff
-    ) 
-    print(f"{days} days until growth is less than {diff}")
-    print(f"Number of cases is {int(confirmed)}")
+    params = fit_data_to_function(x, y, exponential_function)
+    # diff = 100
+    # days, confirmed = plateau(
+    #     x,
+    #     y,
+    #     params,
+    #     logistic_function,
+    #     diff=diff
+    # )
+    # print(f"{days} days until growth is less than {diff}")
+    # print(f"Number of cases is {int(confirmed)}")
