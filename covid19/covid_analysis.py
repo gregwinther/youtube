@@ -42,14 +42,14 @@ if __name__ == "__main__":
     with open("./covid_data.json", "r") as file:
         data = json.load(file)
 
-    y = np.asarray(data["norway"])
+    y = np.asarray(data["new york"])
     x = np.arange(len(y))
 
     params = fit_data_to_function(
         x, y, logistic_function, initial_guess=[10000, 1, 1, 1]
     )
     print(params)
-    diff = 50
+    diff = 500
     days, confirmed = plateau(x, y, params, logistic_function, diff=diff)
     print(f"{days} days until growth is less than {diff}")
     print(f"Number of cases will be {int(confirmed)}")
