@@ -94,8 +94,8 @@ class Dot(pygame.sprite.Sprite):
         )
 
     def killswitch(self, cycles_to_fate=20, mortality_rate=0.2):
-        self.killswitch_on = True 
-        self.cycles_to_fate = cycles_to_fate 
+        self.killswitch_on = True
+        self.cycles_to_fate = cycles_to_fate
         self.mortality_rate = mortality_rate
 
 
@@ -118,7 +118,9 @@ class Simulation:
 
     def start(self, randomize=False):
 
-        self.N = self.n_susceptible + self.n_infected + self.n_quarantined
+        self.N = (
+            self.n_susceptible + self.n_infected + self.n_quarantined
+        )
 
         pygame.init()
         screen = pygame.display.set_mode([self.WIDTH, self.HEIGHT])
@@ -171,9 +173,7 @@ class Simulation:
             self.infected_container.add(guy)
             self.all_container.add(guy)
 
-        stats = pygame.Surface(
-            (self.WIDTH // 4, self.HEIGHT // 4)
-        )
+        stats = pygame.Surface((self.WIDTH // 4, self.HEIGHT // 4))
         stats.fill(GREY)
         stats.set_alpha(230)
         stats_pos = (self.WIDTH // 40, self.HEIGHT // 40)
@@ -197,23 +197,18 @@ class Simulation:
             n_rec_now = len(self.recovered_container)
             t = int((i / self.T) * stats_width)
             y_infect = int(
-                stats_height
-                - (n_inf_now / n_pop_now) * stats_height
+                stats_height - (n_inf_now / n_pop_now) * stats_height
             )
             y_dead = int(
                 ((self.N - n_pop_now) / self.N) * stats_height
             )
-            y_recovered = int(
-                (n_rec_now / n_pop_now) * stats_height
-            )
+            y_recovered = int((n_rec_now / n_pop_now) * stats_height)
             stats_graph = pygame.PixelArray(stats)
             stats_graph[t, y_infect:] = pygame.Color(*GREEN)
-            stats_graph[t, :y_dead] = pygame.Color(
-                *HORRIBLE_YELLOW
-            )
-            stats_graph[t, y_dead:y_dead + y_recovered] = pygame.Color(
-                *PURPLE
-            )
+            stats_graph[t, :y_dead] = pygame.Color(*HORRIBLE_YELLOW)
+            stats_graph[
+                t, y_dead : y_dead + y_recovered
+            ] = pygame.Color(*PURPLE)
 
             # New infections?
             collision_group = pygame.sprite.groupcollide(
@@ -240,7 +235,7 @@ class Simulation:
                     self.recovered_container.add(new_guy)
                     self.all_container.add(new_guy)
                     recovered.append(guy)
-            
+
             if len(recovered) > 0:
                 self.infected_container.remove(*recovered)
                 self.all_container.remove(*recovered)
@@ -255,6 +250,7 @@ class Simulation:
             clock.tick(30)
 
         pygame.quit()
+
 
 if __name__ == "__main__":
     covid = Simulation(600, 480)

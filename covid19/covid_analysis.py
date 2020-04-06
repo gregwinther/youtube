@@ -13,7 +13,9 @@ def exponential_function(x, a=1, b=0, c=0, d=0):
     return a * np.exp(c * (x + d)) + b
 
 
-def fit_data_to_function(x, y, function, plot=True, initial_guess=[1, 1, 1, 1]):
+def fit_data_to_function(
+    x, y, function, plot=True, initial_guess=[1, 1, 1, 1]
+):
     params, _ = curve_fit(function, x, y, p0=initial_guess)
     plt.plot(x, y, ".", label="Observations")
     y_fit = function(x, *params)
@@ -50,6 +52,8 @@ if __name__ == "__main__":
     )
     print(params)
     diff = 500
-    days, confirmed = plateau(x, y, params, logistic_function, diff=diff)
+    days, confirmed = plateau(
+        x, y, params, logistic_function, diff=diff
+    )
     print(f"{days} days until growth is less than {diff}")
     print(f"Number of cases will be {int(confirmed)}")
