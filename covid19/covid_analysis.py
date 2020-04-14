@@ -48,7 +48,7 @@ if __name__ == "__main__":
     x = np.arange(len(y))
 
     params = fit_data_to_function(
-        x, y, logistic_function, initial_guess=[10000, 1, 1, 1]
+        x, y, logistic_function, initial_guess=[y[-1], 1, 1, 1]
     )
     print(params)
     diff = 500
