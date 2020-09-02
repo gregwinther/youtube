@@ -1,5 +1,6 @@
-import numpy as np 
+import numpy as np
 from tqdm import tqdm
+
 
 class ODESolver:
     """ODESolver superclass
@@ -43,11 +44,13 @@ class ODESolver:
             """Advance solution one time step."""
             raise NotImplementedError
 
+
 class ForwardEuler(ODESolver):
     def advance(self):
         u, f, i, t = self.u, self.f, self.i, self.t
         dt = t[i + 1] - t[i]
         return u[i, :] + dt * f(u[i, :], t[i])
+
 
 class RungeKutta4(ODESolver):
     def advance(self):
@@ -58,4 +61,4 @@ class RungeKutta4(ODESolver):
         K2 = dt * f(u[i, :] + 0.5 * K1, t[i] + dt2)
         K3 = dt * f(u[i, :] + 0.5 * K2, t[i] + dt2)
         K4 = dt * f(u[i, :] + K3, t[i] + dt)
-        return u[i, :] + (1/6) * (K1 + 2 * K2 + 2 * K3 + K4)
+        return u[i, :] + (1 / 6) * (K1 + 2 * K2 + 2 * K3 + K4)
