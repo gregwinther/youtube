@@ -3,10 +3,15 @@ from tqdm import tqdm
 
 
 class ODESolver:
-    """ODESolver superclass
+    """ODESolver
 
-    ODE:
+    Solves ODE on the form:
     u' = f(u, t), u(0) = U0
+
+    Parameters
+    ----------
+    f : callable
+        Right-hand-side function f(u, t)
 
     """
 
@@ -14,6 +19,14 @@ class ODESolver:
         self.f = f
 
     def set_initial_conditions(self, U0):
+        """
+        Sets initial conditions
+
+        Parameters
+        ----------
+        U0 : int or float or array_like
+            Inital condition(s)
+        """
         if isinstance(U0, (int, float)):
             # Scalar ODE
             self.number_of_eqns = 1
@@ -25,6 +38,23 @@ class ODESolver:
         self.U0 = U0
 
     def solve(self, time_points):
+        """
+        Solves ODE according to given time points.
+        The resolution is implied by spacing of 
+        time points.
+
+        Parameters
+        ----------
+        time_points : array_like
+            Time points to solve for
+        
+        Returns
+        -------
+        u : array_like
+            Solution
+        t : array_like
+            Time points corresponding to solution
+        """
 
         self.t = np.asarray(time_points)
         n = self.t.size
