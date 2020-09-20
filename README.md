@@ -6,7 +6,7 @@ YouTube videos.
 Install with 
 
 ```bash
-pip install .
+pip install git+https://github.com/gregwinther/youtube
 ```
 
 Hurray! Amazing.
